@@ -3,11 +3,7 @@ project(tabread VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-if (WIN32)
-configure_file(include/version.h.in ${PROJECT_BUILD_DIR}/include/version.h @ONLY)
-else()
 configure_file(include/version.h.in ${CMAKE_BINARY_DIR}/include/version.h @ONLY)
-endif()
 
 set(SOURCE_LIST
   include/application_context.h
@@ -42,7 +38,7 @@ if (NOT WIN32)
 list(APPEND LINK_LIBRARIES tbb)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE ${PROJECT_BUILD_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include PRIVATE ${CMAKE_BINARY_DIR}/include)
 target_link_libraries(${PROJECT_NAME} ${LINK_LIBRARIES})
 
 if (WIN32)

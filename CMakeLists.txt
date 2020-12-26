@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(tabread CXX)
 
-message("generator is set to ${CMAKE_GENERATOR}")
+if (WIN32)
+# special for GTEXT
+cmake_policy(SET CMP0074 NEW)
+endif()
 
 if (CMAKE_GENERATOR STREQUAL "")
 if (MINGW)
