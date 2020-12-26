@@ -1,0 +1,3 @@
+#pragma once
+
+#define TABREAD_VERSION "@PROJECT_VERSION@"

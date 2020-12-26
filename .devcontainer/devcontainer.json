@@ -1,0 +1,31 @@
+{
+  "name": "tabread",
+  "dockerFile": "Dockerfile", // Path to docker file
+  "runArgs": [
+      "-v", "/tmp/.docker.xauth:/tmp/.docker.xauth",
+      "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+      "-e", "XAUTHORITY=/tmp/.docker.xauth",
+      "-e", "DISPLAY=:1",
+      "--ipc", "host"
+  ],
+
+  // Use the next line if you want to publish any ports.
+  "appPort": 3000,
+  // If you want to use a post create command
+  // "postCreateCommand": "npm install",
+  "extensions": [
+    // extensions which is going to be installed inside the docker environment
+    "ms-vscode.cpptools",
+    "ms-vscode.cmake-tools",
+    "ms-python.python",
+    "dbaeumer.vscode-eslint"
+  ],
+  "settings": {
+    // additional settings for VS Code configurations
+    // You can copy paste them from `settings.json` of your workspace
+    // Reference: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
+    "python.pythonPath": "/usr/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+  }
+}
