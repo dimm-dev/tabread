@@ -1,6 +1,7 @@
 # Table data reader
 
-The project has been created for one of my friends to help him fetch data from the application that doesn't have any functions to export data and presents data at a custom grid widget and so data can't be read with WINAPI functions.
+The project has been created for one of my friends to help him fetch text presented in a grid from the application and it's screenshots.
+That application doesn't have any functions to export data and presents data at a custom grid widget and so data can't be read with WINAPI functions.
 
 ### Prerequisites
 
@@ -124,6 +125,6 @@ Execute the installation bundle 'tabread-X.Y.Z.exe', where X.Y.Z is a package ve
 ## Further work
 
 1. Make GUI application (select widget/appliction or file, progress, etc.).    
-2. Read appliction's and filters' parameters from configuration file.    
+2. Read appliction's and filters' parameters from configuration file (especially for crop filter).    
 3. Improve grid detection algorithms.    
 4. Multiline text recognition.    
