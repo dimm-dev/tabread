@@ -2,15 +2,15 @@
   "name": "tabread",
   "dockerFile": "Dockerfile", // Path to docker file
   "runArgs": [
-      "-v", "/tmp/.docker.xauth:/tmp/.docker.xauth",
+      "-v", "/tmp/.tabread.xauth:/tmp/.docker.xauth",
       "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
       "-e", "XAUTHORITY=/tmp/.docker.xauth",
       "-e", "DISPLAY=:1",
       "--ipc", "host"
   ],
 
-  // Use the next line if you want to publish any ports.
-  "appPort": 3000,
+  "initializeCommand": "xauth nlist :0 | sed -e 's/^..../ffff/' | xauth -f /tmp/.tabread.xauth nmerge -",
+
   // If you want to use a post create command
   // "postCreateCommand": "npm install",
   "extensions": [
