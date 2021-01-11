@@ -3,11 +3,12 @@
 #include <string>
 #include <vector>
 
-#include "contour_filter.h"
 #include "ocr_filter.h"
 #include "text_filter.h"
 
 #include "resource_provider.h"
+
+#include "task_async_ocr.h"
 
 #include "recognize.h"
 
@@ -45,17 +46,6 @@ class Async_task_executor : public Task_executor
         std::vector<std::vector<std::string>> execute(const cv::Mat& image, const imgproc::Table& table) override;
 
     private:
-        struct Task_slice
-        {
-            int row_num;
-            const imgproc::Rects* rects;
-            std::vector<std::string>* row_text;
-
-            bool failed;
-
-            Task_slice(int rn = 0, std::vector<std::string>* text = nullptr, const imgproc::Rects* r = nullptr);
-        };
-
         imgproc::OCR_rect_filter& _ocr_filter;
         text::Text_filter& _text_filter;
         actions::Resource_provider_base<text::Recognize>& _engine_provider;

@@ -19,7 +19,7 @@ std::list<Fill_params_function> make_fill_params()
 void fill_paths(Application_params& params, const Command_line_params& source)
 {
     params.output_path = source.get<std::string>("output");
-    params.bin_path = std::filesystem::path(params.argv[0]).parent_path().string();
+    params.bin_path = std::filesystem::path{params.argv[0]}.parent_path().string();
 }
 
 #ifdef WIN32

@@ -11,6 +11,7 @@ set(SOURCE_LIST
   include/check_params.h
   include/fill_params.h
   include/input_image_list.h
+  include/task_async_ocr.h
   include/task_executor.h
   include/version.h
   src/application_context.cpp
@@ -19,8 +20,15 @@ set(SOURCE_LIST
   src/fill_params.cpp
   src/input_image_list.cpp
   src/tabread.cpp
+  src/task_async_ocr.cpp
   src/task_executor.cpp
 )
+
+if ((WIN32) OR (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0))
+  list(APPEND SOURCE_LIST src/task_async_future.cpp)
+else()
+  list(APPEND SOURCE_LIST src/task_async_par.cpp)
+endif()
 
 if (WIN32)
 list(APPEND SOURCE_LIST include/dump_window.h src/dump_window.cpp)
@@ -30,9 +38,13 @@ if (WIN32)
 set(LINK_LIBRARIES w32wrap)
 endif()
 
+if (CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+list(APPEND LINK_LIBRARIES stdc++fs)
+endif()
+
 add_executable(${PROJECT_NAME} ${SOURCE_LIST})
 
-list(APPEND LINK_LIBRARIES imgfilter text)
+list(APPEND LINK_LIBRARIES imgfilter text pthread)
 
 if (NOT WIN32)
 list(APPEND LINK_LIBRARIES tbb)

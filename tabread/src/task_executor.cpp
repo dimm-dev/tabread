@@ -1,10 +1,11 @@
-#include <algorithm>
-#include <execution>
 #include <functional>
 
 #include <opencv2/imgproc.hpp>
 
 #include "image_filter.h"
+
+#include "task_async_ocr.h"
+
 #include "task_executor.h"
 
 namespace tabread
@@ -47,16 +48,6 @@ std::vector<std::string> Sequental_task_executor::execute(const cv::Mat& image, 
     return row_text;
 }
 
-Async_task_executor::Task_slice::Task_slice(int rn,
-    std::vector<std::string>* text,
-        const imgproc::Rects* r) :
-    row_num{ rn },
-        rects{ r },
-        row_text{ text },
-        failed{ false }
-{
-}
-
 Async_task_executor::Async_task_executor(imgproc::OCR_rect_filter& ocr_filter,
     text::Text_filter& text_filter,
         actions::Resource_provider_base<text::Recognize>& engine_provider) :
@@ -78,7 +69,7 @@ std::vector<std::vector<std::string>> Async_task_executor::execute(const cv::Mat
     };
     std::generate(task_data.begin(), task_data.end(), gen_func);
     std::function<void(Task_slice&)> task_func = std::bind(&Async_task_executor::task, this, image, std::placeholders::_1);
-    std::for_each(std::execution::par, task_data.begin(), task_data.end(), task_func);
+    process_task_slices(task_data, task_func);
 
     if (std::find_if(task_data.begin(), task_data.end(), [](const Task_slice& s) { return s.failed; }) != task_data.end())
         throw std::runtime_error("Async_task_executor: one or more of OCR tasks failed");
